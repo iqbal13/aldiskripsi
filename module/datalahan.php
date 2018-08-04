@@ -18,7 +18,7 @@
 
         <form method="POST" action="<?php echo $url_admin ?>proses.php?module=tambahlahan" enctype="multipart/form-data">
             <div class="box-body">
-              <table class="table table-striped">
+              <table class="table table-striped" id="data-table">
                   <thead>
                     <tr>
                       <th> No </th>
@@ -41,7 +41,7 @@
               $gallery = mysqli_query($conn,"SELECT * FROM data_lahan left join master_kondisitanah ON data_lahan.kondisi_tanah =master_kondisitanah.id LEFT JOIN master_kondisijalan ON data_lahan.kondisi_jalan = master_kondisijalan.id_kondisi LEFT JOIN master_kelurahan ON data_lahan.kelurahan = master_kelurahan.id_kelurahan");
               while($run = mysqli_fetch_array($gallery)){ ?>
                 <tr>
-                  <td> <?php echo $no++ ?> </td>
+                  <td> <?php echo $no ?> </td>
                   <td> <?php echo $run['nama_lahan'] ?> </td>
                   <td> <?php echo $run['luas_lahan'] ?> </td>
                   <td> <?php echo $run['alamat'] ?> </td>
@@ -80,3 +80,10 @@
       <!-- /.row -->
     </section>
     <!-- /.content -->
+<script src="<?php echo $url_admin ?>bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="<?php echo $url_admin ?>bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script>
+  $(function () {
+    $('#data-table').DataTable();
+  });
+</script>
