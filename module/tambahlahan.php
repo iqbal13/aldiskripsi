@@ -102,7 +102,7 @@
                   <?php 
                   $kelurahan = mysqli_query($conn,"SELECT * FROM master_kelurahan");
                   while($c = mysqli_fetch_array($kelurahan)){ ?>
-                    <option value="<?php echo $c['id'] ?>">
+                    <option value="<?php echo $c['id_kelurahan'] ?>">
                     <?php echo $c['nama_kelurahan'] ?> </option>
                   <?php } ?>
                   </select> 
@@ -116,12 +116,13 @@
 
               <?php } else{ 
 
-                $id = $_GET['kode_lahan'];
+                $id = $_GET['id'];
                 $query_gmbr = mysqli_query($conn,"SELECT * FROM data_lahan WHERE kode_lahan = '$id'");
                 while($dt = mysqli_fetch_array($query_gmbr)){
                  
                   $kode_lahan = $dt['kode_lahan'];
                   $nama_lahan = $dt['nama_lahan'];
+                  $luas_lahan = $dt['luas_lahan'];
                   $alamat = $dt['alamat'];
                   $kondisi_tanah = $dt['kondisi_tanah'];
                   $kondisi_jalan = $dt['kondisi_jalan'];
@@ -138,18 +139,18 @@
                  <div class="col-md-12">
                    <div class="form-group">
                   <label>Nama Lahan </label>
-                  <input type="text" name="judul_berita" class="form-control">
+                  <input type="text" name="nama_lahan" class="form-control" value="<?php echo $nama_lahan ?>">
                 </div>
 
                 <div class="form-group">
                   <label>Luas Lahan </label>
-                  <input type="text" name="judul_berita" class="form-control">
+                  <input type="text" name="luas_lahan" class="form-control" value="<?php echo $luas_lahan ?>">
                 </div>
 
 
                 <div class="form-group">
                   <label>Alamat </label>
-                  <input type="text" name="alamat" class="form-control">
+                  <input type="text" name="alamat" class="form-control" value="<?php echo $alamat ?>">
                 </div>
 
 
@@ -158,8 +159,15 @@
                   <select class="form-control" name="kondisi_tanah">  
                   <?php 
                   $tanah = mysqli_query($conn,"SELECT * FROM master_kondisitanah");
-                  while($dt = mysqli_fetch_array($tanah)){  ?>
-                    <option value="<?php echo $dt['id'] ?>"> 
+                  while($dt = mysqli_fetch_array($tanah)){ 
+                      if($dt['id'] == $kondisi_tanah){
+                        $select = 'selected="selected"';
+                      }else{
+                        $select = '';
+                      }
+
+                   ?>
+                    <option value="<?php echo $dt['id'] ?>" <?php echo $select ?>> 
                       <?php echo $dt['kondisitanah'] ?>
                     </option>
 
@@ -177,8 +185,15 @@
 
                   <?php 
                   $tanah = mysqli_query($conn,"SELECT * FROM master_kondisijalan");
-                  while($dt = mysqli_fetch_array($tanah)){  ?>
-                    <option value="<?php echo $dt['id_kondisi'] ?>"> 
+                  while($dt = mysqli_fetch_array($tanah)){ 
+                       if($dt['id_kondisi'] == $kondisi_jalan){
+                        $select = 'selected="selected"';
+                      }else{
+                        $select = '';
+                      }
+
+                   ?>
+                    <option value="<?php echo $dt['id_kondisi'] ?>" <?php echo $select ?>> 
                       <?php echo $dt['kondisijalan'] ?>
                     </option>
                   <?php 
@@ -191,19 +206,19 @@
 
                    <div class="form-group">
                   <label>Jarak lahan terhadap Pemukiman </label>
-                  <input type="text" name="jarak_lahan_terhadap_pemukiman" class="form-control">
+                  <input type="text" name="jarak_lahan_terhadap_pemukiman" class="form-control" value="<?php echo $jarak_lahan_terhadap_pemukiman ?>">
                 </div>              
 
            
 
                    <div class="form-group">
                   <label>Jarak lahan terhadap Jalan Raya </label>
-                  <input type="text" name="jarak_lahan_terhadap_jalanraya" class="form-control">
+                  <input type="text" name="jarak_lahan_terhadap_jalanraya" class="form-control" value="<?php echo $jarak_lahan_terhadap_jalanraya ?>">
                 </div>
 
                     <div class="form-group">
                   <label>Jarak lahan terhadap Sungai </label>
-                  <input type="text" name="jarak_lahan_terhadap_sungai" class="form-control">
+                  <input type="text" name="jarak_lahan_terhadap_sungai" class="form-control" value="<?php echo $jarak_lahan_terhadap_sungai ?>">
                 </div> 
 
                 <div class="form-group">
@@ -211,12 +226,21 @@
                 <select class="form-control" name="kelurahan" required="required">
                   <?php 
                   $kelurahan = mysqli_query($conn,"SELECT * FROM master_kelurahan");
-                  while($c = mysqli_fetch_array($kelurahan)){ ?>
-                    <option value="<?php echo $c['id'] ?>">
+
+                  while($c = mysqli_fetch_array($kelurahan)){
+ if($dt['id_kelurahan'] == $kelurahan){
+                        $select = 'selected="selected"';
+                      }else{
+                        $select = '';
+                      }
+                   ?>
+                    <option value="<?php echo $c['id_kelurahan'] ?>" <?php echo $select ?>>
                     <?php echo $c['nama_kelurahan'] ?> </option>
                   <?php } ?>
                   </select> 
               </div>
+
+              <input type="hidden" name="kode_lahan" value="<?php echo $kode_lahan ?>">
 
 
               <div class="form-group">
